@@ -1,5 +1,6 @@
 4. 
 [Characters That Cause Misinterpretation When Following a Character Constant](https://support.sas.com/documentation/cdl/en/lrcon/62955/HTML/default/viewer.htm#a000780334.htm#a002154623)
+
 5. Which statement specifies that records 1 through 10 are to be read from the raw data file customer.txt?
 
 A. infile ‘customer.txt’ 1-10;
