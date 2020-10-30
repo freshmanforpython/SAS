@@ -1720,7 +1720,6 @@ C. where Job_Title='% Manager ';
 107 if Month='JAN' then output WORK.JANUARY;
 108 Sales=Cost * Quantity;
 109 drop=Month Quantity Cost;
------
 22
 ERROR 22-322: Syntax error, expecting one of the following: !,
 !!, &, *, \**, +, -,
