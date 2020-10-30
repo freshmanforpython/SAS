@@ -46,3 +46,5 @@ The label will appear in the PROC MEANS report. The label will not appear in the
 
 ```
 
+5. where: determined when the DATA step is compiled (SET or MERGE)
+   IF: evaluated at run time; can run new variables that are defined within the step;
