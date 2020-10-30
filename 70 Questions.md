@@ -1183,6 +1183,7 @@ Obs	Name	Address	State
 1	Joe Conley	123 Main St.	
 2	Jane Ngyuen	555 Alpha Ave.	NY
 3	Jennifer Jason	666 Mt. Diablo	**
+
 B.
 
 Obs	Name	Address	City	State
@@ -1276,3 +1277,460 @@ Obs	Id	Char1	Char2
 5	538		F
 6	644	D	
 7	644		G
+```
+
+51. The following program is submitted:
+
+proc contents data=_all_;
+run;
+
+Which statement best describes the output from the submitted program?
+
+A. The output contains only a list of the SAS data sets that are contained in the WORK library.
+B. The output displays only the contents of the SAS data sets that are contained in the WORK library.
+C. The output displays only the variables in the SAS data sets that are contained in the WORK library.
+**D. The output contains a list of the SAS data sets that are contained in the WORK library and displays the contents of those data sets.**
+```
+1. The CONTENTS procedure shows the contents of a SAS data set and prints the directory of the SAS library. 
+2. As the libref is omitted, SAS uses the default library WORK, and  _ALL_ represents all data sets in that library. 
+SAS lists the data sets in WORK library followed by the contents of each data set.
+```
+
+52. Given the SAS data set WORK.EMP_NAME:
+
+Name	EmpID
+Jill	1864
+Jack	2121
+Joan	4698
+John	5463
+Given the SAS data set WORK.EMP_DEPT:
+
+EmpID	Department
+2121	Accounti
+3567	Finance
+4698	Marketin
+5463	Accounti
+The following program is submitted:
+
+data WORK.ALL;
+merge WORK.EMP_NAME(in=Emp_N)
+WORK.EMP_DEPT(in=Emp_D);
+by Empid;
+if (Emp_N and not Emp_D) or (Emp_D and not Emp_N);
+run;
+
+How many observations are in data set WORK.ALL after submitting the program?
+
+A. 1
+**B. 2**
+C. 3
+D. 5
+
+53. The following SAS program is submitted:
+
+data WORK.TOTAL_SALARY;
+retain Total;
+set WORK.SALARY;
+by Department;
+if First.Department
+then Total=0;
+Total=sum(Total, Wagerate);
+if Last.Total;
+run;
+What is the initial value of the variable Total?
+
+A. 0
+**B. Missing**
+C. The value of the first observations Wagerate
+D. Cannot be determined from the information given
+```
+RETAIN Count 0;
+Count = SUM(Count, 1);
+sum 可以处理missing，=不可以
+```
+
+54. Consider the following data step:
+
+data WORK.TEST;
+set SASHELP.CLASS(obs=5);
+retain City ‘Beverly Hills’;
+State=’California’;
+run;
+
+The computed variables City and State have their values assigned using two different methods, a RETAIN statement and an Assignment statement. Which statement regarding this program is true?
+
+A. The RETAIN statement is fine, but the value of City will be truncated to 8 bytes as the LENGTH statement has been omitted.
+B. Both the RETAIN and assignment statement are being used to initialize new variables and are equally efficient. Method used is a matter of programmer preference.
+C. The assignment statement is fine, but the value of City will be truncated to 8 bytes as the LENGTH statement has been omitted.
+**D. City’s value will be assigned one time, State’s value 5 times.**
+```
+Both RETAIN statement and Assignment (=) statement can be used to assign values, but there are a few differences.
+
+1. As RETAIN statement assigns the value at compile time, the code will be executed once and only once. Assignment statement, however, respecifies the value in every iteration.
+2. SAS automatically sets variables that are assigned values by an assignment statement to missing before each iteration of the DATA step. On the contrary, RETAIN statement retains the value from one iteration to the next.
+
+AS this program reads the first 5 observations (5 iterations) in CLASS data set,  the value of State is specified 5 times, and the variable is reset to missing when SAS begins to read the next observation. City is initialized as ‘Beverly Hills’ before DATA step and won’t be reset to missing.
+```
+
+55. The following SAS program is submitted:
+
+data WORK.DATE_INFO;
+X=”01Jan1960″D ;
+run;
+
+Variable X contains what value?
+
+**A. the numeric value 0**
+B. the character value “01Jan1960”
+C. the date value 01011960
+D. the code contains a syntax error and does not execute.
+```
+d is case insensitive.
+```
+
+56. The following output is created by the FREQUENCY procedure:
+
+Frequency
+Percent
+Row Pct
+Col Pct	
+Table of Region by Product
+Region	Product
+Corn	Cotton	Oranges	Total
+East	
+2
+22.22
+50.00
+50.00	
+1
+11.11
+25.00
+33.33	
+1
+11.11
+25.00
+50.00	
+4
+44.44
+South	
+2
+22.22
+40.00
+50.00	
+2
+22.22
+40.00
+66.67	
+1
+11.11
+20.00
+50.00	
+5
+55.56
+Total	
+4
+44.44	
+3
+33.33	
+2
+22.22	
+9
+100.00
+Which TABLES statement was used to completed the following program
+that produced the output?
+
+proc freq data=sales;
+<_insert_code_>
+run;
+
+A. tables region product;
+B. tables region,product;
+C. tables region/product;
+**D. tables region*product;**
+
+57. Given the SAS data set WORK.ONE:
+
+N	BeginDate
+1	09JAN201
+2	12JAN201
+The following SAS program is submitted:
+
+data WORK.TWO;
+set WORK.ONE;
+Day=<_insert_code_>;
+format BeginDate date9.;
+run;
+
+The data set WORK.TWO is created, where Day would be 1 for Sunday, 2 for Monday, 3 for Tuesday, … :
+
+N	BeginDate	Day
+1	09JAN2010	7
+2	12JAN2010	3
+Which expression successfully completed the program and creates the variable Day?
+
+A. day(BeginDate)
+**B. weekday(BeginDate)**
+C. dayofweek(BeginDate)
+D. getday(BeginDate,today())
+
+```
+1. WEEKDAY function  returns an integer that corresponds to the day of the week, where 1=Sunday, 2=Monday, …, 7=Saturday, from a SAS date value. 
+2. DAY function returns the day of the month. 
+3. There is no function called DAYOFWEEK or GETDAY in SAS.
+```
+
+58. The following program is submitted:
+
+proc format;
+value salfmt. 0 -< 50000 = ‘Less than 50K’ 50000 – high = ’50K or Greater’;
+
+options fmterr nodate pageno=1;
+title ‘Employee Report’;
+
+proc print data=work.employees noobs;
+var fullname salary hiredate;
+format salary salfmt. hiredate date9.;
+label fullname=’Name of Employee’ salary=’Annual Salary’ hiredate=’Date of Hire’;
+run;
+
+Why does the program fail?
+
+A. The PAGENO option is invalid in the OPTIONS statement.
+B. The RUN statement is missing after the FORMAT procedure.
+**C. The format name contains a period in the VALUE statement.**
+D. The LABEL option is missing from the PROC PRINT statement.
+``` .是用来区别变量名和格式名
+```
+
+59.Given the contents of the raw data file TYPECOLOR.DAT:
+
+—-+—-10—+—-20—+—-30
+daisyyellow
+
+The following SAS program is submitted:
+
+data FLOWERS;
+infile ‘TYPECOLOR.DAT’ truncover;
+length
+Type $ 5
+Color $ 11;
+input
+Type $
+Color $;
+run;
+
+What are the values of the variables Type and Color?
+
+A. Type=daisy, Color=yellow
+B. Type=daisy, Color=w
+C. Type=daisy, Color=daisyyellow
+**D. Type=daisy, Color=**
+
+```
+读取数据default delimiter是space，题目中daisyyellow 是一个value被读取，如需强行读取两个数据，可采取以下形式：
+data FLOWERS;
+infile ‘TYPECOLOR.DAT’;
+length
+Type $ 5
+Color $ 11;
+input
+Type $ 1-5
+Color $ 6-11;
+run;
+```
+
+60. Given the SAS data set WORK.PRODUCTS:
+ProdId Price ProductType Sales Returns
+------ ----- ----------- ----- -------
+K12S 95.50 OUTDOOR 15 2
+B132S 2.99 CLOTHING 300 10
+R18KY2 51.99 EQUIPMENT 25 5
+3KL8BY 6.39 OUTDOOR 125 15
+DY65DW 5.60 OUTDOOR 45 5
+DGTY23 34.55 EQUIPMENT 67 2
+The following SAS program is submitted:
+data WORK.REVENUE(drop=Sales Returns Price);
+set WORK.PRODUCTS(keep=ProdId Price Sales Returns);
+Revenue=Price*(Sales-Returns);
+run;
+How many variables does the WORK.REVENUE data set contain?
+**A. 2**
+B. 3
+C. 4
+D. 6
+
+61. Consider the data step:
+data WORK.TEST;
+infile 'c:\class1.csv' dsd;
+input Name $ Sex $ Age Height Weight;
+if Age NE 16 and Age NE 15 then Group=1;
+else Group=2;
+run;
+Which statement produces a functionally equivalent result for assigning Group a value?
+**A. if Age not in(15,16) then Group=1; else Group=2;**
+B. if (Age NE 16) or (Age NE 15) then Group=1; else Group=2;
+C. where Age not between 15 and 16 then Group=1; else Group=2;
+D. both A or C will work.
+```
+WHERE 不能与THEN连用
+```
+
+62. The following SAS program is submitted:
+<_insert_ods_code_>
+proc means data=SASUSER.SHOES;
+where Product in ('Sandal' , 'Slipper' , 'Boot');
+run;
+<_insert_ods_code_>
+Which ODS statements, inserted in the two locations above,create a report stored in an html file?
+A.
+ods html open='sales.html';
+ods html close;
+B.
+ods file='sales.html' / html;
+ods file close;
+**C.
+ods html file='sales.html';
+ods html close;**
+D.
+ods file html='sales.html';
+ods file close;
+
+63. The following SAS program is submitted:
+data WORK.OUTDS;
+do until(Prod GT 6);
+Prod + 1;
+end;
+run;
+What is the value of the variable Prod in the output data set?
+A. . (missing)
+B. 6
+**C. 7**
+D. Undetermined, infinite loop.
+
+64. The following SAS program is submitted:   
+data work.accounting;        
+length jobcode $ 12;        
+set work.department; 
+run; 
+The WORK.DEPARTMENT SAS data set contains a character variable named JOBCODE with a length of 5. Which of the following is the length of the variable JOBCODE in the output data set? 
+A. 5 
+B. 8 
+C. 12 
+D. The length can not be determined as the program fails to execute due to errors. 
+```
+LEGTH规定的是变量的字节长度，不是格式，不能含小数点。 LENGTH variable-specification(s) <DEFAULT=n> 其中，DEFAULT=n是规定新建的数值变量的默认长度8改为n。 
+1. 数值变量 对于数值变量，LENGTH范围为3-8字节。LENGTH可放在任意位置。 在PROC SQL中ALERT不能改变数值变量长度。
+2. 字符变量 对于字符变量，LENGTH范围为1-32767字节，空格占一个字符。LENGTH必须放在SET语句之前。实际上，较少使用LENGTH语句，而是通过PROC SQL中ALERT改变字符变量长度。 
+```
+
+65. The following SAS program is submitted:
+data WORK.ACCOUNTING;
+set WORK.DEPARTMENT;
+label Jobcode='Job Description';
+run;
+Which statement is true about the output dataset?
+A. The label of the variable Jobcode is Job (only the first word).
+B. The label of the variable Jobcode is Job Desc (only the first 8 characters).
+**C. The label of the variable Jobcode is Job Description.**
+D. The program fails to execute due to errors. Labels must be defined in a PROC step.
+
+66. The following SAS program is submitted:
+data WORK.SALES;
+do Year=1 to 5;
+do Month=1 to 12;
+X + 1;
+end;
+end;
+run;
+How many observations are written to the WORK.SALES data set?
+A. 0
+**B. 1**
+C. 5
+D. 60
+
+```
+循环结束之后x才输入到数据集中。可加入output
+data WORK.SALES;
+do Year=1 to 5;
+do Month=1 to 12;
+X + 1;
+end;
+end;
+data WORK.SALES;
+do Year=1 to 5;
+do Month=1 to 12;
+X + 1;
+output;
+end;
+end;
+
+run;
+```
+
+67. Consider the following data step:
+data WORK.NEW;
+set WORK.OLD(keep=X);
+if X < 10 then X=1;
+else if X >= 10 AND X LT 20 then X=2;
+else X=3;
+run;
+In filtering the values of the variable X in data set WORK.OLD, what value new value would be assigned to X if
+its original value was a missing value?
+**A. X would get a value of 1.**
+B. X would get a value of 3.
+C. X would retain its original value of missing.
+D. This step does not run because of syntax errors.
+```
+缺失值默认为最小
+```
+
+68. The following SAS program is submitted:
+data WORK.ACCOUNTING;
+set WORK.DEPARTMENT;
+length EmpId $6;
+CharEmpid=EmpId;
+run;
+If data set WORK.DEPARTMENT has a numeric variable EmpId,which statement is true about the output
+dataset?
+A. The type of the variable CharEmpid is numeric.
+B. The type of the variable CharEmpid is unknown.
+C. The type of the variable CharEmpid is character.
+**D. The program fails to execute due to errors.**
+```两个数据集中empid格式存在冲突```
+
+69. Given the data set WORK.EMPDATA:
+Employee_ Manager_
+ID Job_Title Department ID
+------- ---------------------- ---------------- ------
+120101 Director Sales Management 120261
+120102 Sales Manager Sales Management 120101
+120103 Sales Manager II Sales Management 120101
+120104 Administration Manager Administration 120101
+120105 Secretary I Administration 120101
+Which one of the following where statements would display observations with job titles containing the word
+'Manager'?
+A. where substr(Job_Title,(length(Job_Title)-6))='Manager';
+B. where upcase(scan(Job_Title,-1,' '))='MANAGER';
+C. where Job_Title='% Manager ';
+**D. where Job_Title like '%Manager%';**
+
+70.After a SAS program is submitted, the following is written to the SAS log:
+105 data WORK.JANUARY;
+106 set WORK.ALLYEAR(keep=Product Month Quantity Cost);
+107 if Month='JAN' then output WORK.JANUARY;
+108 Sales=Cost * Quantity;
+109 drop=Month Quantity Cost;
+-----
+22
+ERROR 22-322: Syntax error, expecting one of the following: !,
+!!, &, *, \**, +, -,
+, <=, <>, =, >, >=,
+AND, EQ, GE, GT, IN, LE, LT, MAX, MIN, NE, NG, NL,
+NOTIN, OR, ^=, |, ||, ~=.
+110 run;
+What data set option could be attached to WORK.JANUARY to replace the DROP statement that generated the
+error in the log?
+A. (drop Month Quantity Cost)
+B. (drop Month, Quantity, Cost)
+C. (drop=Month, Quantity, Cost)
+**D. (drop=Month Quantity Cost)**
