@@ -48,3 +48,58 @@ The label will appear in the PROC MEANS report. The label will not appear in the
 
 5. where: determined when the DATA step is compiled (SET or MERGE)
    IF: evaluated at run time; can run new variables that are defined within the step;
+   
+6. Assume that Sasuser.One does not exist and that the following SAS program is submitted at the beginning of a new SAS session:
+
+data sasuser.one;
+   x=1;
+   y=27;
+   output one;
+run; 
+Select one:
+
+A.
+The data set Sasuser.One is created with 2 variables and 3 observations
+
+B.
+The data set Sasuser.One is created with 2 variables and 0 observations
+
+C.
+The DATA step does not execute
+
+D.
+The data set Sasuser.One is created with 2 variables and 1 observation
+
+```The OUTPUT statement is told to use Work.One, but it is not a data set that is specified on the DATA statement. This generates a syntax error and stops the execution of the DATA step. At compile time, a data set Sasuser.One with 2 variables and 0 observations would be created, but only if it did not already exist. A pre-existing Sasuser.One would not be affected by this DATA step.
+
+The correct answer is: The data set Sasuser.One is created with 2 variables and 0 observations
+```
+
+7. The LENGTH statement only gives the variable Name a predefined maximum length.
+The variable Name in the data set Employee has a $CHAR10. format. The variable Name in the data set Sales has a $CHAR15. format. 
+
+The following SAS program is submitted:
+
+data both;
+   length name $ 20;
+   merge sales employee;
+   by id; 
+run;
+What is the format for the variable Name in the data set Both?
+ 
+Select one:
+
+A.
+$20
+
+
+B.
+$CHAR10
+
+**C.
+$CHAR15**
+
+
+D.
+$CHAR20
+The first attribute seen for a variable is the one used in the current data step. Given that the Work.Sales data set is positioned first on the MERGE statement, the variable Name would have a format of $CHAR15. in the new data set Work.Both. 
