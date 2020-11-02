@@ -103,3 +103,5 @@ $CHAR15**
 D.
 $CHAR20
 The first attribute seen for a variable is the one used in the current data step. Given that the Work.Sales data set is positioned first on the MERGE statement, the variable Name would have a format of $CHAR15. in the new data set Work.Both. 
+ 
+8. DO loop is increased at the bottom of the loop and evaluated at the top.
