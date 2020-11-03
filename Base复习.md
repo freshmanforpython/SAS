@@ -28,7 +28,7 @@
   
   data table1;
   
-  infile card dsd; # delimiter sensitive data; missover:从下一个数据行中读入数据，未赋值的变量就是缺失值；dlm=：delimiter
+  infile card dsd; # delimiter sensitive data; missover:从下一个数据行中读入数据，本行未赋值的变量就是缺失值；dlm=：delimiter
     
   input v1 v2 v3;
   
